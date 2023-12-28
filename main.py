@@ -8,19 +8,25 @@ app = FastAPI()
 @app.post("/apilineal")
 async def lineal(request: Request):
     # Se obtiene el json del cuerpo de la petición POST
-    json = await request.json() # Devuelve una lista de listas
+    strJson = await request.body()
+    strJson = strJson.decode('utf-8') #codificar como json string
+    print(strJson)
 
     #Aqui se procesan los datos
-    jsonReducido = tsne(json)
+    jsonReducido = tsne.TSNE(strJson)
+    print(jsonReducido)
     
     return jsonReducido 
 
 @app.post("/apinolineal")
 async def nolineal(request: Request):
     # Se obtiene el json del cuerpo de la petición POST
-    json = await request.json() # Devuelve una lista de listas
+    strJson = await request.body()
+    strJson = strJson.decode('utf-8') #codificar como json string
+    print(strJson)
 
     #Aqui se procesan los datos
-    jsonReducido = pca(json)
+    jsonReducido = tsne.TSNE(strJson)
+    print(jsonReducido)
     
     return jsonReducido 

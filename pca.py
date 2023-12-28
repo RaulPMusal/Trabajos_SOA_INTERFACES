@@ -57,6 +57,9 @@ def PCA(datos_json):
     
     # Cargar datos del JSON y convertir a un diccionario Python
     datos_dict = json.loads(datos_json)
+
+    # Convertir los datos del diccionario (strings) en floats (números)
+    datos_dict['datos'] = [[float(num) for num in sublista] for sublista in datos_dict['datos']]
     
     # Convertir los datos a reducir a una matriz NumPy
     datos_array = np.array(datos_dict['datos'])
