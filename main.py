@@ -11,7 +11,7 @@ async def lineal(request: Request):
     #Aqui se procesan los datos
 
 
-    return data  # Devuelve la lista de listas
+    return data 
 
 @app.post("/apinolineal")
 async def nolineal(request: Request):
@@ -21,4 +21,4 @@ async def nolineal(request: Request):
     #Aqui se procesan los datos
 
     
-    return data  # Devuelve la lista de listas
+    return data 
