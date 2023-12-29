@@ -8,14 +8,6 @@
     <route>
       <from uri="jetty:http://0.0.0.0:8080/esbEndpoint?bridgeEndpoint=true" />
 
-      <unmarshal>
-        <csv />
-      </unmarshal>
-
-      <marshal>
-        <json library="Jackson" />
-      </marshal>
-
       <choice>
         <when>
           <simple>${header.serv.toLowerCase()} == 'lineal'</simple>
@@ -25,7 +17,7 @@
           <to uri="http://localhost:8000/apinolineal?bridgeEndpoint=true" />
         </otherwise>
       </choice>
-
     </route>
   </camelContext>
+
 </beans>

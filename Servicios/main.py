@@ -12,7 +12,8 @@ async def lineal(request: Request):
     strJson = strJson.decode('utf-8') #codificar como json string
 
     #Aqui se procesan los datos
-    jsonReducido = reduccionTSNE(strJson)
+    print(strJson)
+    jsonReducido = reduccionPSA(strJson)
     
     return jsonReducido
 
@@ -23,6 +24,6 @@ async def nolineal(request: Request):
     strJson = strJson.decode('utf-8') #codificar como json string
 
     #Aqui se procesan los datos
-    jsonReducido = reduccionPSA(strJson)
+    jsonReducido = reduccionTSNE(strJson)
 
     return jsonReducido
