@@ -32,7 +32,7 @@ def reduccion_dimension_TSNE(matriz_datos):
         'resultados': resultados_tsne,
     }
     
-    return json.dumps(resultado_final_auto)
+    return resultado_final_auto
 
 """
     FUNCIÓN PRINCIPAL
@@ -48,15 +48,8 @@ def reduccionTSNE(datos_json):
     # Cargar datos del JSON y convertir a un diccionario Python
     datos_dict = json.loads(datos_json)
 
-    print(datos_dict)
-    # Convertir los datos del diccionario (strings) en floats (números)
-    datos_dict['datos'] = [[float(num) for num in sublista] for sublista in datos_dict['datos']]
-    
-    # Convertir los datos a reducir a una matriz NumPy
-    datos_array = np.array(datos_dict['datos'])
-    
-    # Obtener el método de reducción de dimensión elegido por el usuario
-    #metodo_reduccion = datos_dict['metodo']
+    # Convertir la lista de listas a una matriz NumPy
+    datos_array = np.array(datos_dict['datos'])  
       
     # Ver el tipo de datos a reducir (True si son todos los datos numéricos | False si no)
     tipo_datos = np.all([np.issubdtype(type(x), np.number) for x in np.ravel(datos_array)])
@@ -67,7 +60,6 @@ def reduccionTSNE(datos_json):
         # Crear un JSON de respusta y lo devolvemos
         resultado_final = {
             'datos': datos_dict['datos'], # datos originales
-            #'metodo': datos_dict['metodo'], # metodo erroneo dado
             'error_method': "DATOS NO SOPORTADOS" #indicacion del error
         }
         return resultado_final
