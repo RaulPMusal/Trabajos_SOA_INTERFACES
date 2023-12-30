@@ -22,7 +22,6 @@ def reduccion_dimension_TSNE(matriz_datos):
     X = StandardScaler().fit_transform(matriz_datos)
     #Calculamos el número adecuado para el parámetro perplexity del TSNE que indicará el número de "vecinos cercanos"
     param_p = matriz_datos.shape[0] // 2
-    print(param_p)
     # Crear objeto del algoritmo TSNE        
     if param_p < 30:
         tsne = TSNE(perplexity=param_p) #hacemos la llamada con el parametro calculado
