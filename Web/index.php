@@ -41,9 +41,9 @@
 
     <div class="jumbotron">
         <h1 class="display-4">MatrixReducer</h1>
-        <p class="lead">Bienvenido a nuestra página de reducción de datos.</p>
+        <p class="lead">Bienvenido a nuestra página de reducción de la dimensión de datos.</p>
         <hr class="my-4">
-        <p>Esta página recoge una matriz de datos introducida por teclado o mediante la subida de un archivo CSV para reducirlos utilizando diferentes herramientas.</p>
+        <p>Esta página recoge una matriz de datos introducida por teclado o mediante la subida de un archivo CSV para reducir su dimensión utilizando diferentes herramientas.</p>
     </div>
 
     <div class="container" style="margin: 30px 10px;">
