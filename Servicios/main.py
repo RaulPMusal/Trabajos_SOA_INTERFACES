@@ -1,6 +1,6 @@
 from fastapi import Request, FastAPI
 import json
-from pca import reduccionPSA
+from pca import reduccionPCA
 from tsne import reduccionTSNE
 
 app = FastAPI()
@@ -12,9 +12,10 @@ async def lineal(request: Request):
     strJson = strJson.decode('utf-8') #codificar como json string
 
     #Aqui se procesan los datos
-    print(strJson)
-    jsonReducido = reduccionPSA(strJson)
+    print(f'Se recibe: {strJson}')
+    jsonReducido = reduccionPCA(strJson)
     
+    print(f'Se devuelve: {jsonReducido}')
     return jsonReducido
 
 @app.post("/apinolineal")
@@ -24,6 +25,8 @@ async def nolineal(request: Request):
     strJson = strJson.decode('utf-8') #codificar como json string
 
     #Aqui se procesan los datos
+    print(f'Se recibe: {strJson}')
     jsonReducido = reduccionTSNE(strJson)
 
+    print(f'Se devuelve: {jsonReducido}')
     return jsonReducido

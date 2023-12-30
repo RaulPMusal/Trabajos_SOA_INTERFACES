@@ -1,18 +1,30 @@
 <?php
-require_once('funciones.php');
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['datosPantalla'])) {
-        $csvArray = csvStringAarray($_POST['datosPantalla']);
-    } else if (isset($_FILES['archivoCSV'])) {
-        $csv = file_get_contents($_FILES['archivoCSV']['tmp_name']);
-        $csvArray = csvStringAarray($csv);
+    require_once('funciones.php');
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $csvUsuario = new CsvUsuario();
+        //comprobar si se ha introducido el csv por pantalla o por archivo
+        if(isset($_POST['datosPantalla'])){
+            $csv = $_POST['datosPantalla'];
+        }else if(isset($_FILES['archivoCSV'])){
+            $csv = file_get_contents($_FILES['archivoCSV']['tmp_name']);
+        }
+        //leer el csv introducido
+        $csvUsuario->leerCsvUsuario($csv);
+        if(!empty($csvUsuario->errores)){
+            $errores = $csvUsuario->errores;
+        }else{
+            //enviar el csv al servicio
+            $csvUsuario->reducirDimensiones($_POST['metodo']);
+            //verificar si la respuesta recibida es valida
+            if($csvUsuario->resultado != NULL){
+                $csvReducido = $csvUsuario->resultado;
+                $respuesta = true;
+            }
+            else{
+                $errores = $csvUsuario->errores;
+            }
+        }
     }
-    $json = json_encode(['datos' => $csvArray]);
-    $csvReducido = reducirDimensiones($json, $_POST['metodo']);
-    if (isset($csvReducido)) {
-        $respuesta = true;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST">
                 
                 <label for="datosPantalla" style="display: block; margin-bottom: 10px;">Introduce la matriz de datos a reducir por pantalla:</label>
-                <textarea type="text" id="datosPantalla" name="datosPantalla" required style="padding: 5px; border-radius: 3px; border: 1px solid #ccc; margin-bottom: 10px;" />1, 2, 3, 4
+                <textarea type="text" id="datosPantalla" name="datosPantalla" required style="padding: 5px; border-radius: 3px; border: 1px solid #ccc; margin-bottom: 10px;" />a, b, c, d
+1, 2, 3, 4
 5, 6, 7, 8</textarea>
                 <br>
                 <label for="metodo">Método de reducción:</label>
@@ -97,13 +110,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php if (isset($respuesta)) { ?>
         <div class="container" style="margin: 30px 10px; background-color: #e9ecef; padding: 20px;">
             <h2>Resultado</h2>
+        <?php if ($csvUsuario->metodo != NULL) { ?>
+            <p>Método utilizado: <?= $csvUsuario->metodo ?></p>
+            <?php if ($csvUsuario->varianza != NULL) { ?>
+                <p>Varianza: <?= $csvUsuario->varianza[1]?></p>
+            <?php } ?>
+        <?php } ?>
             <form method="POST" action="descargar.php" target="_blank">
                 <input type="hidden" name="csv" value="<?= base64_encode($csvReducido) ?>">
                 <input type="submit" value="Descargar CSV" style="padding: 5px 10px; background-color: #333; color: #fff; border-radius: 3px;" onmouseover="this.style.backgroundColor='#555'" onmouseout="this.style.backgroundColor='#333'">
             </form>
             <pre><?= $csvReducido ?></pre>
         </div>
-    <?php } ?>
+    <?php } else {
+        if (isset($errores)) {
+            echo "<ul>";
+            foreach ($errores as $error) {
+                echo "<li style='color: red;'>$error</li>";
+            }
+            echo "</ul>";
+        }
+    } ?>
 
     <script>
         function mostrarRespuesta(opcion) {

@@ -36,6 +36,7 @@ def reduccion_dimension_TSNE(matriz_datos):
     # Crear el resultado en formato JSON y devolver
     resultado_final_auto = {
         'resultados': resultados_tsne,
+        'metodo': 'TSNE'
     }
     
     return resultado_final_auto

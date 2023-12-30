@@ -34,6 +34,7 @@ def reduccion_dimension_PCA(matriz_datos):
     resultado_final_auto = {
         'resultados': resultados_pca,
         'varianza': varianza,
+        'metodo': 'PCA'
     }
     
     return resultado_final_auto
@@ -60,7 +61,7 @@ def reduccionPCA(datos_json):
     # Ver el tipo de datos a reducir (True si son todos los datos numéricos | False si no)
     tipo_datos = np.all([np.issubdtype(type(x), np.number) for x in np.ravel(datos_array)])
     
-    print(tipo_datos)
+    print(f'Son datos numéricos: {tipo_datos}')
         
     # Si NO son todos los datos numéricos
     if tipo_datos != True:
